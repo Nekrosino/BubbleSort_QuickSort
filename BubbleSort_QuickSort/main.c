@@ -114,14 +114,17 @@ void rand_num(unsigned int* tab, unsigned int n) //Generowanie liczb pseduolosow
 		tab2 = tab;
 		
 		puts("Trwa inicjalizacja progamu... Prosze czekac");
-		time_t begin = time(NULL); //zaczecie liczenia czasu
+		time_t begin = clock(); //zaczecie liczenia czasu
 		sortowanie_babelkowe(tab, rozmiar);
-		time_t end = time(NULL); //koniec liczenia czasu
+		time_t end = clock(); //koniec liczenia czasu
 		
-		time_t begin2 = time(NULL);
+		time_t begin2 = clock();
 		quick_sort(tab2, 0, rozmiar - 1);
-		time_t end2 = time(NULL);
-		
+		time_t end2 = clock();
+		double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+		double time_spent2 = (double)(end2 - begin2) / CLOCKS_PER_SEC;
+		time_spent = time_spent * 1000;
+		time_spent2 = time_spent * 1000;
 		while (1) //petla glowna
 		{
 			puts("Wybierz jakiego sortowania chcesz uzyc");
@@ -136,14 +139,14 @@ void rand_num(unsigned int* tab, unsigned int n) //Generowanie liczb pseduolosow
 
 			case(1):
 				puts("\nWybrales sortowanie babelkowe!");
-				printf("\nCzas wykonania sortowania babelkowego wynosi: %d sekund\n", (end - begin));
+				printf("\nCzas wykonania sortowania babelkowego wynosi: %f milisekund\n", time_spent);
 				printf("\nWykonano lacznie %u iteracji\n", iteracje);
 				printf("\nWykonano %u zamian liczb\n", zamiany);
 				printf("\nWykonano %u porownan liczb\n", porownania);
 				break;
 			case(2):
 				puts("Wybrales sortowanie metoda quicksort!\n");
-				printf("\n Czas wykonania quicksort wynosi: %d sekund\n", (end2 - begin2));
+				printf("\n Czas wykonania quicksort wynosi: %f milisekund\n", time_spent2);
 				printf("\nWykonano lacznie %u iteracji\n", iteracje2);
 				printf("\nWykonano %u zamian liczb\n", zamiany2);
 				printf("\nWykonano %u porownan liczb\n", porownania2);
@@ -155,23 +158,19 @@ void rand_num(unsigned int* tab, unsigned int n) //Generowanie liczb pseduolosow
 				//puts("SPACJA");
 				//wyswietlanie_tablicy(tab, rozmiar);
 				puts("SORTOWANIE BABELKOWE START");
-				if ((end - begin) <= 0)
-					printf("\nCzas wykonania sortowania babelkowego wynosi: <1 sekundy\n");
+				if ((time_spent) <= 0)
+					printf("\nCzas wykonania sortowania babelkowego wynosi: <1 milisekundy\n");
 				else
 				{
-					printf("\nCzas wykonania sortowania babelkowego wynosi: %d sekund\n", (end - begin));
+					printf("\nCzas wykonania sortowania babelkowego wynosi: %f milisekund\n", (time_spent));
 				}
 				printf("\nWykonano lacznie %u iteracji\n", iteracje);
 				printf("\nWykonano %u zamian liczb\n", zamiany);
 				printf("\nWykonano %u porownan liczb\n", porownania);
 				puts("\nSORTOWANIE BABELKOWE STOP");
 				puts("\nQUICKSORT START");
-				if ((end2 - begin2) <= 0)
-					printf("\nCzas wykonania quicksort wynosi: <1 sekundy\n");
-				else
-				{
-					printf("\nCzas wykonania quicksort wynosi: %d sekund\n", (end2 - begin2));
-				}
+				printf("\nCzas wykonania quicksort wynosi: %f milisekund\n", time_spent2);
+				
 			
 				printf("\nWykonano lacznie %u iteracji\n", iteracje2);
 				printf("\nWykonano %u zamian liczb\n", zamiany2);
@@ -180,18 +179,18 @@ void rand_num(unsigned int* tab, unsigned int n) //Generowanie liczb pseduolosow
 
 				//wyswietlanie_tablicy(tab2, rozmiar); //Wlaczyc zeby sprawdzilo czy sortuje
 
-				if ((end2 - begin2) < (end - begin))
+				if (time_spent2 < time_spent)
 				{
-					printf("\nW tym wypadku quicksort byl szybszy o %d sekund\n ", (end - begin) - (end2 - begin2));
+					printf("\nW tym wypadku quicksort byl szybszy o %f sekund\n ", time_spent - time_spent2);
 				}
 
-				else if ((end - begin) < (end2 - begin2))
+				else if (time_spent < time_spent2)
 				{
-					printf("\nW tym wypadku quicksort byl szybszy o %d sekund\n ", (end2 - begin2) - (end - begin));
+					printf("\nW tym wypadku quicksort byl szybszy o %f milisekund\n ", time_spent2 - time_spent);
 				}
 
 				else
-					printf(" \n W tym wypadku czasy quicksort i bubble sort byly mniejsze niz 1 sekunda\n\n");
+					printf(" \n W tym wypadku czasy quicksort i bubble sort byly mniejsze niz 1 milisekunda\n\n");
 				
 
 				break;
